@@ -1,0 +1,4 @@
+qr_code_*.png
+qr_codes/
+__pycache__/
+output_test_file.txt
