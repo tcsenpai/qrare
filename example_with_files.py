@@ -1,11 +1,11 @@
 import qraro
 
-with open("input_test_file.txt", "rb") as f:
+with open("pika.webp", "rb") as f:
     data = f.read()
 
-qraro.bin_to_qr(data, chunk_size=50)
+qraro.bin_to_qr(data, chunk_size=100, box_size=10, border=4)
 
 test_file = qraro.qr_to_bin()
 
-with open("output_test_file.txt", "wb") as f:
+with open("pika_out.webp", "wb") as f:
     f.write(test_file)
