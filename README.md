@@ -6,6 +6,7 @@ This Python module provides functionality to encode arbitrary binary data into a
 
 - Python 3.x
 - qrcode
+- qrtools
 - Pillow (PIL)
 - zxing
 
@@ -46,7 +47,7 @@ Returns:
 
 This function performs the following steps:
 1. Iterates through numbered QR code images with the given prefix.
-2. Decodes each QR code using the zxing library.
+2. Decodes each QR code using the zxing library, falling back to qrtools if zxing cannot decode a qrcode.
 3. Extracts chunk information and data from each decoded QR code.
 4. Reconstructs the original hexadecimal string from the chunks.
 5. Converts the hexadecimal string back to binary data.
@@ -75,6 +76,7 @@ print("Original and decoded data match:", original_data == decoded_data)
 - The script automatically determines the appropriate QR code version based on the data size.
 - Error correction level is set to LOW (L) to maximize data capacity.
 - The script handles binary data, including non-printable characters.
+- THe script has a fallback method that (until now) allows for a 100% error free decoding.
 - QR code images are saved and read from the current working directory.
 - Ensure you have write permissions in the directory where the script is run.
 
