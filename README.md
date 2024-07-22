@@ -7,12 +7,13 @@ This Python module provides functionality to encode arbitrary binary data into a
 - Python 3.x
 - qrcode
 - qrtools
+- compress
 - Pillow (PIL)
 - zxing
 
 Install the required libraries using pip:
 
-`pip install qrcode pillow zxing`
+`pip install qrcode pillow zxing compress`
 
 Or install the dependencies using:
 
@@ -30,10 +31,11 @@ Parameters:
 - `filename_prefix` (str, optional): The prefix for the generated QR code image filenames. Default is "qr_code".
 
 This function performs the following steps:
-1. Converts the binary data to a hexadecimal string.
-2. Splits the hex string into chunks of the specified size.
-3. Creates a QR code for each chunk, including chunk number and total chunk count.
-4. Saves each QR code as a PNG image.
+1. Compresses the binary data using gzip.
+2. Converts the binary data to a hexadecimal string.
+3. Splits the hex string into chunks of the specified size.
+4. Creates a QR code for each chunk, including chunk number and total chunk count.
+5. Saves each QR code as a PNG image.
 
 ### qr_to_bin(filename_prefix="qr_code")
 
@@ -51,6 +53,8 @@ This function performs the following steps:
 3. Extracts chunk information and data from each decoded QR code.
 4. Reconstructs the original hexadecimal string from the chunks.
 5. Converts the hexadecimal string back to binary data.
+6. Decompresses the binary data using gzip.
+7. Returns the decompressed binary data.
 
 ## Usage Example
 
@@ -74,6 +78,8 @@ print("Original and decoded data match:", original_data == decoded_data)
 ## Notes
 
 - The script automatically determines the appropriate QR code version based on the data size.
+- Data is compressed using gzip before being encoded into QR codes to maximize data capacity.
+- Data is then decompressed using gzip after being decoded from QR codes.
 - Error correction level is set to LOW (L) to maximize data capacity.
 - The script handles binary data, including non-printable characters.
 - THe script has a fallback method that (until now) allows for a 100% error free decoding.

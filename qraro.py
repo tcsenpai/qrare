@@ -1,9 +1,11 @@
 import qrcode
 import zxing
 import qrtools
+from compress import Compressor
 
 def bin_to_qr(data, chunk_size=100, filename_prefix="qr_code", box_size=10, border=4):
-    hex_data = data.hex()
+    compressed_data = compress_bytes(data)
+    hex_data = compressed_data.hex()    
     chunks = [hex_data[i:i+chunk_size] for i in range(0, len(hex_data), chunk_size)]
     total_chunks = len(chunks)
 
@@ -63,6 +65,18 @@ def qr_to_bin(filename_prefix="qr_code"):
         print("No QR codes found.")
         return None
 
-    hex_data = ''.join(chunks[i] for i in range(1, len(chunks) + 1))
-    return bytes.fromhex(hex_data)
+    hex_data_compressed = ''.join(chunks[i] for i in range(1, len(chunks) + 1))
+    bytes_compressed = bytes.fromhex(hex_data_compressed)
+    return decompress_bytes(bytes_compressed)
 
+# Compressing as much as possible
+
+def compress_bytes(data):
+    compressor = Compressor()
+    compressor.use_gzip()
+    return compressor.compress(data)
+
+def decompress_bytes(data):
+    compressor = Compressor()
+    compressor.use_gzip()
+    return compressor.decompress(data)

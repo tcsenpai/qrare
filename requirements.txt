@@ -2,3 +2,4 @@ qrcode
 Pillow
 zxing
 qrtools
+compress
