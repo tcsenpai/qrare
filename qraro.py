@@ -1,6 +1,7 @@
 import qrcode
 from PIL import Image
 import zxing
+import qrtools
 
 def bin_to_qr(data, chunk_size=100, filename_prefix="qr_code", box_size=10, border=4):
     hex_data = data.hex()
@@ -24,6 +25,7 @@ def qr_to_bin(filename_prefix="qr_code"):
     chunks = {}
     i = 1
     reader = zxing.BarCodeReader()
+    fallback_reader = qrtools.QR()
 
     while True:
         try:
@@ -33,15 +35,24 @@ def qr_to_bin(filename_prefix="qr_code"):
             print(f"decoded...", end="")
             if barcode and barcode.parsed:
                 decoded = barcode.parsed
-                chunk_info, chunk_data = decoded.split(':', 1)
-                chunk_num, total_chunks = map(int, chunk_info.split('/'))
-                chunks[chunk_num] = chunk_data
-                print(f"binary data extracted [OK]")
-                if chunk_num == total_chunks:
-                    break
             else:
+                print(f"Could not decode QR code {i}: {barcode.raw} with zxing, trying fallback reader...")
+                fallback_reader.decode(filename)
+                decoded = fallback_reader.data
+            # split the decoded string into chunk_info and chunk_data
+            chunk_info, chunk_data = decoded.split(':', 1)
+            chunk_num, total_chunks = map(int, chunk_info.split('/'))
+            chunks[chunk_num] = chunk_data
+            # print(chunk_data)
+            print(f"binary data extracted [OK]")
+            if chunk_num == total_chunks:
+                break
+                # print(fallback_reader.data)
+            if not chunks[i]:
                 print(f"Error decoding QR code {i}: {barcode.raw}")
-                
+                exit(-1)
+            print(f"binary data extracted [OK]")
+
             i += 1
         except FileNotFoundError:
             break
@@ -55,3 +66,4 @@ def qr_to_bin(filename_prefix="qr_code"):
 
     hex_data = ''.join(chunks[i] for i in range(1, len(chunks) + 1))
     return bytes.fromhex(hex_data)
+
