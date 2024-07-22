@@ -1,5 +1,4 @@
 import qrcode
-from PIL import Image
 import zxing
 import qrtools
 

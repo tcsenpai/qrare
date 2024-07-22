@@ -1,3 +1,4 @@
 qrcode
 Pillow
 zxing
+qrtools
