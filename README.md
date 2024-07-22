@@ -12,7 +12,7 @@ This Python module provides functionality to encode arbitrary binary data into a
 
 Install the required libraries using pip:
 
-`pip install qrcode pillow zxing`
+`pip install qrcode pillow zxing qrtools`
 
 Or install the dependencies using:
 
