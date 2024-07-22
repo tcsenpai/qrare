@@ -1,6 +1,6 @@
 # QR Code Encoder and Decoder
 
-This Python module provides functionality to encode arbitrary binary data into a series of QR codes and decode them back into the original data. It uses the `qrcode` library for encoding and the `zxing` library for decoding.
+This Python module provides functionality to encode arbitrary binary data into a series of QR codes and decode them back into the original data. It uses the `qrcode` library for encoding and the `zxing` and `qrtools` libraries for decoding.
 
 ## Dependencies
 
