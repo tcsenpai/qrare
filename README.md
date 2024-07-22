@@ -2,6 +2,8 @@
 
 ## Store files into QR Codes and decode them later!
 
+### Now with gzip compression and fallback to qrtools!
+
 This Python module provides functionality to encode arbitrary binary data into a series of QR codes and decode them back into the original data. It uses the `qrcode` library for encoding and the `zxing` and `qrtools` libraries for decoding.
 
 ## Dependencies
