@@ -17,6 +17,8 @@ def bin_to_qr(data, chunk_size=100, filename_prefix="qr_code", box_size=10, bord
         print(f"[OK]")
 
     print(f"Generated {total_chunks} QR codes.")
+    print(f"Each QR code except the last one will contain {chunk_size} bytes of data.")
+    print(f"The last QR code will contain the remaining bytes of data ({len(chunks[-1]  )} bytes).")
 
 def qr_to_bin(filename_prefix="qr_code"):
     chunks = {}
@@ -34,15 +36,18 @@ def qr_to_bin(filename_prefix="qr_code"):
                 chunk_info, chunk_data = decoded.split(':', 1)
                 chunk_num, total_chunks = map(int, chunk_info.split('/'))
                 chunks[chunk_num] = chunk_data
+                print(f"binary data extracted [OK]")
                 if chunk_num == total_chunks:
                     break
+            else:
+                print(f"Error decoding QR code {i}: {barcode.raw}")
+                
             i += 1
-            print(f"binary data extracted [OK]")
         except FileNotFoundError:
             break
         except Exception as e:
             print(f"Error decoding QR code {i}: {e}")
-            break
+            exit(-1)
 
     if not chunks:
         print("No QR codes found.")
