@@ -6,7 +6,20 @@
 
 This Python module provides functionality to encode arbitrary binary data into a series of QR codes and decode them back into the original data. It uses the `qrcode` library for encoding and the `zxing` and `qrtools` libraries for decoding.
 
-## Dependencies
+## Installation
+
+### Using pip
+
+Pubished at https://pypi.org/project/qrare/
+
+`pip install qrare`
+
+### From this repository
+
+`git clone https://github.com/tcsenpai/qrare/`
+`cd qrare`
+
+#### Install dependencies
 
 - Python 3.x
 - qrcode
@@ -23,7 +36,7 @@ Or install the dependencies using:
 
 `pip install -r requirements.txt`
 
-## Functions
+## Functions & Usage
 
 ### bin_to_qr(data, chunk_size=100, filename_prefix="qr_code")
 
