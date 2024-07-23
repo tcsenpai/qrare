@@ -16,8 +16,11 @@ Pubished at https://pypi.org/project/qrare/
 
 ### From this repository
 
-`git clone https://github.com/tcsenpai/qrare/`
-`cd qrare`
+```
+git clone https://github.com/tcsenpai/qrare/
+
+cd qrare
+```
 
 #### Install dependencies
 
