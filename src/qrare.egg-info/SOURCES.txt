@@ -1,0 +1,9 @@
+LICENSE.md
+README.md
+pyproject.toml
+src/qrare.egg-info/PKG-INFO
+src/qrare.egg-info/SOURCES.txt
+src/qrare.egg-info/dependency_links.txt
+src/qrare.egg-info/top_level.txt
+src/qraro_tcsenpai/__init__.py
+src/qraro_tcsenpai/qrare.py

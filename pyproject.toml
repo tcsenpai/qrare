@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=61.0", "qrcode", "qrtools", "compress", "zxing", "pillow"]
+build-backend = "setuptools.build_meta"
+[project]
+name = "qrare"
+version = "1.0.0"
+authors = [
+  { name="tcsenpai", email="dev@tcsenpai.com" },
+]
+description = "Compresses data into QR codes and decompresses them back into the original data."
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/tcsenpai/qrare"
+Issues = "https://github.com/tcsenpai/qrare/issues" 
