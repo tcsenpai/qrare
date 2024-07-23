@@ -84,12 +84,16 @@ This function performs the following steps:
 import qrare
 
 original_data = b"This is a binary string \x00\x01\x02 with some non-printable characters.
-qraro.bin_to_qr(original_data, chunk_size=50)
+qrare.bin_to_qr(original_data, chunk_size=50)
+```
 
+And vice versa
+
+```python
 # Decode QR codes back into binary data
 import qrare
 
-decoded_data = qraro.qr_to_bin()
+decoded_data = qrare.qr_to_bin()
 print("Decoded data:", decoded_data)
 print("Original and decoded data match:", original_data == decoded_data)
 
