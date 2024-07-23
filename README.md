@@ -81,13 +81,13 @@ This function performs the following steps:
 ```python
 
 # Encode binary data into QR codes
-import qraro
+import qrare
 
 original_data = b"This is a binary string \x00\x01\x02 with some non-printable characters.
 qraro.bin_to_qr(original_data, chunk_size=50)
 
 # Decode QR codes back into binary data
-import qraro
+import qrare
 
 decoded_data = qraro.qr_to_bin()
 print("Decoded data:", decoded_data)
