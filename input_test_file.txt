@@ -1,5 +1,0 @@
-This file can be used (and is used) as an example input file for the `example_with_files.py` script.
-
-Feel free to modify it as needed.
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus eget sapien.

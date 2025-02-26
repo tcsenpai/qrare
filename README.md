@@ -1,122 +1,116 @@
-# QRare
+# Binary QR Converter
 
-## Store files into QR Codes and decode them later!
+A simple CLI tool to convert binary files to QR codes and back.
 
-### Now with gzip compression and fallback to qrtools!
+## Features
 
-This Python module provides functionality to encode arbitrary binary data into a series of QR codes and decode them back into the original data. It uses the `qrcode` library for encoding and the `zxing` and `qrtools` libraries for decoding.
+- Convert any binary file to a series of QR codes
+- Decode QR codes back to the original binary file
+- Compression to reduce the number of QR codes needed
+- Error correction for reliable decoding
+- File integrity verification using SHA-256 hashing
+- Cross-platform compatibility (Windows, macOS, Linux)
 
-## Installation
+## Prerequisites
 
-### Using pip
+- Python 3.6 or higher
+- For decoding QR codes, you need to install the ZBar library:
+  - On Ubuntu/Debian: `sudo apt-get install libzbar0`
+  - On macOS: `brew install zbar`
+  - On Windows: Download from [SourceForge](https://sourceforge.net/projects/zbar/)
 
-Pubished at https://pypi.org/project/qrare/
+## Setup
 
-`pip install qrare`
+1. Clone or download this repository
+2. Install dependencies:
+   ```
+   pip install -r requirements.txt
+   ```
+3. Make the script executable (Linux/macOS):
+   ```
+   chmod +x binary_qr.py
+   ```
 
-### From this repository
+## Usage
 
-```
-git clone https://github.com/tcsenpai/qrare/
-
-cd qrare
-```
-
-#### Install dependencies
-
-- Python 3.x
-- qrcode
-- qrtools
-- compress
-- Pillow (PIL)
-- zxing
-
-Install the required libraries using pip:
-
-`pip install qrcode pillow zxing qrtools compress`
-
-Or install the dependencies using:
-
-`pip install -r requirements.txt`
-
-## Functions & Usage
-
-### bin_to_qr(data, chunk_size=100, filename_prefix="qr_code")
-
-Encodes binary data into a series of QR code images.
-
-Parameters:
-- `data` (bytes): The binary data to encode.
-- `chunk_size` (int, optional): The maximum number of hexadecimal characters per QR code. Default is 100.
-- `filename_prefix` (str, optional): The prefix for the generated QR code image filenames. Default is "qr_code".
-
-This function performs the following steps:
-1. Compresses the binary data using gzip.
-2. Converts the binary data to a hexadecimal string.
-3. Splits the hex string into chunks of the specified size.
-4. Creates a QR code for each chunk, including chunk number and total chunk count.
-5. Saves each QR code as a PNG image.
-
-### qr_to_bin(filename_prefix="qr_code")
-
-Decodes a series of QR code images back into the original binary data.
-
-Parameters:
-- `filename_prefix` (str, optional): The prefix of the QR code image filenames to decode. Default is "qr_code".
-
-Returns:
-- `bytes`: The decoded binary data, or `None` if no QR codes were found.
-
-This function performs the following steps:
-1. Iterates through numbered QR code images with the given prefix.
-2. Decodes each QR code using the zxing library, falling back to qrtools if zxing cannot decode a qrcode.
-3. Extracts chunk information and data from each decoded QR code.
-4. Reconstructs the original hexadecimal string from the chunks.
-5. Converts the hexadecimal string back to binary data.
-6. Decompresses the binary data using gzip.
-7. Returns the decompressed binary data.
-
-## Usage Example
-
-```python
-
-# Encode binary data into QR codes
-import qrare
-
-original_data = b"This is a binary string \x00\x01\x02 with some non-printable characters.
-qrare.bin_to_qr(original_data, chunk_size=50)
-```
-
-And vice versa
-
-```python
-# Decode QR codes back into binary data
-import qrare
-
-decoded_data = qrare.qr_to_bin()
-print("Decoded data:", decoded_data)
-print("Original and decoded data match:", original_data == decoded_data)
+### Encoding a binary file to QR codes
 
 ```
+python binary_qr.py encode path/to/file.bin -o output_directory
+```
 
-## Notes
+Options:
+- `-o, --output-dir`: Directory to save QR code images (default: ./qrcodes)
+- `-c, --chunk-size`: Size of binary chunks in bytes (default: 1024)
+- `-v, --qr-version`: QR code version (1-40, higher means more capacity) (default: 40)
+- `-z, --compression-level`: Zlib compression level (0-9) (default: 9)
 
-- The script automatically determines the appropriate QR code version based on the data size.
-- Data is compressed using gzip before being encoded into QR codes to maximize data capacity.
-- Data is then decompressed using gzip after being decoded from QR codes.
-- Error correction level is set to LOW (L) to maximize data capacity.
-- The script handles binary data, including non-printable characters.
-- THe script has a fallback method that (until now) allows for a 100% error free decoding.
-- QR code images are saved and read from the current working directory.
-- Ensure you have write permissions in the directory where the script is run.
+### Decoding QR codes back to a binary file
 
-## Error Handling
+```
+python binary_qr.py decode path/to/qrcodes/*.png -o output_directory
+```
 
-- The script includes basic error handling for file not found and decoding errors.
-- If an error occurs during decoding, it will be printed to the console.
+or
 
-## Limitations
+```
+python binary_qr.py decode path/to/qrcodes/ -o output_directory
+```
 
-- The maximum data capacity depends on the QR code version and error correction level.
-- Very large binary files may require a large number of QR codes.
-- The script assumes that QR codes will be scanned in the correct order for decoding.
+Options:
+- `-o, --output-dir`: Directory to save the reconstructed file (default: ./output)
+
+### Show version information
+
+```
+python binary_qr.py version
+```
+
+## Examples
+
+### Encode a PDF file to QR codes
+
+```
+python binary_qr.py encode document.pdf -o qrcodes/
+```
+
+### Decode QR codes back to the original PDF
+
+```
+python binary_qr.py decode qrcodes/ -o recovered/
+```
+
+### Run the example script
+
+```
+python example.py
+```
+
+## How it works
+
+1. The binary file is compressed using zlib to reduce size
+2. The compressed data is split into chunks
+3. Each chunk is encoded with metadata (chunk index, total chunks, filename, file hash)
+4. Each chunk with metadata is converted to a QR code image
+5. When decoding, the QR codes are read, and the chunks are reassembled
+6. The reassembled data is decompressed to recover the original file
+7. The file hash is verified to ensure data integrity
+
+## Tips for optimal use
+
+- **Adjust chunk size**: For larger files, increasing the chunk size (`-c` option) can reduce the number of QR codes but may make them more complex and harder to scan.
+- **QR code version**: Higher versions (up to 40) can store more data but require higher resolution scanning.
+- **Compression level**: The default level (9) provides maximum compression but takes longer. Lower values (1-8) are faster but produce more QR codes.
+- **Printing QR codes**: When printing, ensure high quality and sufficient size for reliable scanning.
+- **Scanning**: Use a good camera in well-lit conditions for best results when scanning QR codes.
+
+## Troubleshooting
+
+- **Missing ZBar library**: If you get an error about missing ZBar, install it using the instructions in the Prerequisites section.
+- **QR code decoding fails**: Make sure all QR codes are clearly visible and not damaged. Try increasing the error correction level.
+- **File too large**: Try increasing the chunk size or QR code version to reduce the number of QR codes.
+- **Invalid QR version**: Make sure to use a QR version between 1 and 40.
+
+## License
+
+MIT License 
