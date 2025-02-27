@@ -2,6 +2,8 @@
 
 A simple CLI tool to convert binary files to QR codes and back.
 
+https://pypi.org/project/binary-qr-converter/0.1.0/
+
 ## Features
 
 - Convert any binary file to a series of QR codes
