@@ -1,4 +1,35 @@
+# QR code output files
 qr_code_*.png
 qr_codes/
-__pycache__/
 output_test_file.txt
+
+# Python package build artifacts
+dist/
+build/
+*.egg-info/
+__pycache__/
+*.py[cod]
+*$py.class
+.eggs/
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv/
+.env/
+
+# Development and testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# IDE files
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+mise.toml
